@@ -11,11 +11,8 @@ public class Horse extends ChessPiece{
     @Override
     public boolean canMoveToPosition(ChessBoard chessBoard, int line, int column, int toLine, int toColumn){
         if (!super.checkBorder (line, column, toLine, toColumn)) return false;
-
-        int xDiff = Math.abs (toLine-line);
-        int yDiff = Math.abs (toColumn-column);
-        if (yDiff*xDiff==2) return true;
-        else return false;
+        if (Math.abs (toLine-line)*Math.abs (toColumn-column)==2) return true;
+        return false;
 
     }
 
