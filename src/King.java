@@ -10,9 +10,10 @@ public class King extends ChessPiece{
 
     @Override
     public boolean canMoveToPosition(ChessBoard chessBoard, int line, int column, int toLine, int toColumn){
-        if (!super.checkBorder (line, column, toLine, toColumn)) return false;
-        if ((Math.abs(toLine-line)<2)&&(Math.abs(toColumn-column)<2)) return true;
-        else return false;
+        if (!super.checkBorder (line, column, toLine, toColumn)) return false; // Проверяем границы
+        if (!((Math.abs(toLine-line)<2)&&(Math.abs(toColumn-column)<2))) return false; // проверяем корректность хода
+        if ((chessBoard.board[toLine][toColumn] != null) && chessBoard.board [toLine][toColumn].getColor().equals(getColor())) return false;// стоит наша фигура, не можем ходить
+        return true; // Запретов нет, ходим
     }
 
     @Override

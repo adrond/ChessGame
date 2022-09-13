@@ -8,20 +8,24 @@ public class Bishop extends ChessPiece{
         return color;
     }
 
+    public static boolean CanBishopMove (ChessBoard chessBoard, int line, int column, int toLine, int toColumn){
+        int lineMin = Math.min(line,toLine);
+        int lineMax = Math.max(line,toLine);
+        int columnMin = Math.min(column,toColumn);
+        int columnMax = Math.max (column,toColumn);
+        int step = (column<toColumn)^(line<toLine)?-1:1; // x и y мен€ютс€ в одном направлении или в разных
+        for (int i=1;lineMin+i<lineMax;i++){
+            if (chessBoard.board [lineMin+i][(step<0?columnMax:columnMin)+step*i] != null) {return false;} // ѕровер€ем, чтобы не перепрыгивали
+        }
+        return true;
+    }
+
     @Override
     public boolean canMoveToPosition(ChessBoard chessBoard, int line, int column, int toLine, int toColumn){
         if (!super.checkBorder (line, column, toLine, toColumn)) return false; //ќбща€ проверка границ
         if (Math.abs(toLine-line)!=Math.abs(toColumn-column)) return false; // ѕроверка правильности хода
-        if (chessBoard.board [toLine][toColumn].getColor().equals(getColor())) return false; // Ќельз€ ходить, в конечной точке сво€ фигура стоит
-        int lineMin = line<toLine?line:toLine;
-        int lineMax = line>toLine?line:toLine;
-        int columnMin = column<toColumn?column:toColumn;
-        int step = (column<toColumn)^(line<toLine)?-1:1;
-        for (int i=1;lineMin+i<lineMax;i++){
-            if (chessBoard.board [lineMin+i][columnMin+step*i] != null) {return false;}
-        }
-        return true;
-
+        if ((chessBoard.board[toLine][toColumn] != null) && chessBoard.board [toLine][toColumn].getColor().equals(getColor())) return false; // Ќельз€ ходить, в конечной точке сво€ фигура стоит
+        return CanBishopMove (chessBoard, line, column, toLine, toColumn);
     }
 
     @Override
